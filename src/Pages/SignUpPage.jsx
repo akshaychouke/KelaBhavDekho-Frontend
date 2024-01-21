@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { SERVER_URL } from "../Services/api";
+import { useNavigate } from "react-router-dom";
 const SignUpPage = () => {
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -21,10 +25,12 @@ const SignUpPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/auth/signup", userData);
+      const response = await axios.post(`${SERVER_URL}auth/signup`, userData);
       console.log(response.data); // Assuming the server sends back meaningful data
       toast.success("Sign Up Successful");
+      navigate("/login");
     } catch (error) {
+      console.log(error.message);
       toast.error(error.response.data.message);
       console.error("Error signing up:", error.response.data.message);
     }

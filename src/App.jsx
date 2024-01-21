@@ -6,12 +6,14 @@ import SignUpPage from "./Pages/SignUpPage";
 import LoginPage from "./Pages/LoginPage";
 import MainPage from "./Pages/MainPage";
 import Footer from "./Components/Footer";
+import Dashboard from "./Pages/Kelagroup/Dashboard";
 import { Routes, Route } from "react-router-dom";
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
+        <Route path="/kelagroupdashboard" element={<Dashboard />}></Route>
         <Route path="/" element={<MainPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage />} />

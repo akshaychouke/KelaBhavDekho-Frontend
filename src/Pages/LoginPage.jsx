@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { SERVER_URL } from "../Services/api";
+import { useAuth } from "../Context/Auth";
 const LoginPage = () => {
-
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+  const [auth, setAuth] = useAuth(); //custom hook
   const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -20,19 +22,28 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/auth/login', loginData);
-      console.log(response.data); // Assuming the server sends back meaningful data
-      localStorage.setItem('accessToken', response.data.token);
+      const response = await axios.post(`${SERVER_URL}auth/login`, loginData);
+      // console.log(response.data); // Assuming the server sends back meaningful data
+      //saving the response in local storage
+      localStorage.setItem("auth", JSON.stringify(response.data));
       toast.success("Login Successful");
-      if(response.status === 200){
-        navigate('/');
+
+      setAuth({
+        ...auth,
+        user: response.data.user,
+        token: response.data.token,
+      });
+
+      if (response.data.user.role == "farmer") {
+        navigate("/");
+      }else if(response.data.user.role == "kela-group"){
+        navigate("/kelagroupdashboard")
       }
     } catch (error) {
       toast.error(error.response.data.message);
-      console.error('Error logging in:', error.response.data.message);
+      console.error("Error logging in:", error.response.data.message);
     }
   };
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-800">
@@ -40,7 +51,10 @@ const LoginPage = () => {
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-900 text-sm font-semibold mb-2">
+            <label
+              htmlFor="email"
+              className="block text-gray-900 text-sm font-semibold mb-2"
+            >
               Email
             </label>
             <input
@@ -54,7 +68,10 @@ const LoginPage = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-900 text-sm font-semibold mb-2">
+            <label
+              htmlFor="password"
+              className="block text-gray-900 text-sm font-semibold mb-2"
+            >
               Password
             </label>
             <input

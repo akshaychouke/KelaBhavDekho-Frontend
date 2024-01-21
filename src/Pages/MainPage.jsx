@@ -18,42 +18,42 @@ const carsData = [
       "https://www.financialexpress.com/wp-content/uploads/2023/01/Fronx1.jpg", // Replace with your image source
   },
   {
-    id: 1,
+    id: 3,
     name: "Car A",
     price: "$30,000",
     imageSrc:
       "https://cdni.autocarindia.com/Utils/ImageResizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Lamborghini-Urus-251120221630.jpg&w=373&h=245&q=75&c=1", // Replace with your image source
   },
   {
-    id: 2,
+    id: 4,
     name: "Car B",
     price: "$40,000",
     imageSrc:
       "https://www.financialexpress.com/wp-content/uploads/2023/01/Fronx1.jpg", // Replace with your image source
   },
   {
-    id: 1,
+    id: 5,
     name: "Car A",
     price: "$30,000",
     imageSrc:
       "https://cdni.autocarindia.com/Utils/ImageResizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Lamborghini-Urus-251120221630.jpg&w=373&h=245&q=75&c=1", // Replace with your image source
   },
   {
-    id: 2,
+    id: 6,
     name: "Car B",
     price: "$40,000",
     imageSrc:
       "https://www.financialexpress.com/wp-content/uploads/2023/01/Fronx1.jpg", // Replace with your image source
   },
   {
-    id: 1,
+    id: 7,
     name: "Car A",
     price: "$30,000",
     imageSrc:
       "https://cdni.autocarindia.com/Utils/ImageResizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Lamborghini-Urus-251120221630.jpg&w=373&h=245&q=75&c=1", // Replace with your image source
   },
   {
-    id: 2,
+    id: 8,
     name: "Car B",
     price: "$40,000",
     imageSrc:
