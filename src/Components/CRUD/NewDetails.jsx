@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import { useAuth } from "../../Context/Auth";
+import { SERVER_URL } from "../../Services/api";
+import axios from "axios";
+import { toast } from "react-toastify";
 const NewDetails = () => {
   const [auth, setAuth] = useAuth();
   const [formData, setFormData] = useState({
-    kelagroupName: "",
+    kelagroupName: auth?.user?.name,
     email: auth?.user?.email,
     contactNumber: "",
     currentPrice: "",
+    owner: auth?.user?._id,
     image: null, // Added for image input
   });
 
   const handleChange = (e) => {
-    if (e.target.type === "file") {
+    if (e.target.type == "file") {
       setFormData({
         ...formData,
-        [e.target.name]: e.target.files[0], // Use e.target.files[0] for file input
+        image: e.target.files[0], // Use e.target.files[0] for file input
       });
     } else {
       setFormData({
@@ -24,11 +28,35 @@ const NewDetails = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form submitted:", formData);
-    // You can add further logic for form submission
+    // Handle form submission logic here'
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    // Create FormData object
+    const formDataToSend = new FormData();
+    formDataToSend.append("kelagroupName", formData.kelagroupName);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("contactNumber", formData.contactNumber);
+    formDataToSend.append("currentPrice", formData.currentPrice);
+    formDataToSend.append("owner", formData.owner);
+    formDataToSend.append("image", formData.image);
+    try {
+      console.log("Form submitted:", formData, config);
+      const response = await axios.post(
+        `${SERVER_URL}api/details/upload`,
+        formDataToSend
+      );
+      toast.success("Details Uploaded Successfully");
+      // console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -46,7 +74,7 @@ const NewDetails = () => {
               value={formData.kelagroupName}
               onChange={handleChange}
               className="w-full p-2 border rounded text-gray-800"
-              required
+              disabled
             />
           </div>
           <div className="mb-4">
@@ -57,7 +85,7 @@ const NewDetails = () => {
               value={formData.email}
               onChange={handleChange}
               className="w-full p-2 border rounded text-gray-800"
-              required
+              disabled
             />
           </div>
           <div className="mb-4">
@@ -78,7 +106,7 @@ const NewDetails = () => {
               Current Price:
             </label>
             <input
-              type="text"
+              type="number"
               name="currentPrice"
               value={formData.currentPrice}
               onChange={handleChange}
