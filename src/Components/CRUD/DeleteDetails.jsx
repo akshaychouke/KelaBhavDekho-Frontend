@@ -9,8 +9,19 @@ const DeleteDetails = () => {
 
   const handleDelete = async (id) => {
     // Logic to delete the item with the given id
-    const updatedData = tableData?.filter((item) => item._id !== id);
-    setTableData(updatedData);
+    try {
+      const response = await axios.delete(
+        `${SERVER_URL}api/details/deletecategories/${id}`
+      );
+      // console.log(response?.data.msg);
+      toast.success(response?.data.msg);
+      // const updatedData = tableData?.filter((item) => item._id !== id);
+      // setTableData(updatedData);
+      getKelaGroups();
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.msg);
+    }
   };
 
   const getKelaGroups = async () => {
@@ -20,7 +31,7 @@ const DeleteDetails = () => {
       const response = await axios.get(
         `${SERVER_URL}api/details/getcategories`,
         {
-          params: {userId},
+          params: { userId },
         }
       );
       console.log(response?.data?.kelagroups);
